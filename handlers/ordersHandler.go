@@ -16,7 +16,7 @@ type Order struct {
     ID        primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
     Item      string             `json:"item"`
     Quantity  int                `json:"quantity"`
-    Price     float64            `json:"price"`
+    Price     int            `json:"price"`
     CreatedAt time.Time          `json:"created_at"`
 }
 
