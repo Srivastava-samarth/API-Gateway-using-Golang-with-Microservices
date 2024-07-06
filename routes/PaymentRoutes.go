@@ -9,6 +9,11 @@ import (
 )
 
 func PaymentRoutes(app *fiber.App) {
+	app.Get("/payments",func(c *fiber.Ctx) error {
+		res,err := http.Get("http://localhost:6003/api/payments")
+	})
+
+
 	app.Post("/payment", func(c *fiber.Ctx) error {
 		res, err := http.Post("http://localhost:6003/payment", "application/json", bytes.NewReader(c.Body()))
 		if err != nil {
