@@ -3,8 +3,8 @@ package handlers
 import (
 	"context"
 	"log"
+	"os"
 	"time"
-
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -16,14 +16,15 @@ type Order struct {
     ID        primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
     Item      string             `json:"item"`
     Quantity  int                `json:"quantity"`
-    Price     int            `json:"price"`
+    Price     int                `json:"price"`
     CreatedAt time.Time          `json:"created_at"`
 }
 
 var orderCollection *mongo.Collection
 
 func init(){
-    client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://srivastavasamarth94:1fJxNQp9n7WZNuRG@cluster0.8kt0yvj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"))
+    mongoUri := os.Getenv("MONGODB_URI")
+    client, err := mongo.NewClient(options.Client().ApplyURI(mongoUri))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,7 +35,7 @@ func init(){
 	if err != nil {
 		log.Fatal(err)
 	}
-	orderCollection = client.Database("api-gateway").Collection("oders")
+	orderCollection = client.Database("api-gateway").Collection("orders")
 }
 
 func GetOrders(c *fiber.Ctx) error {

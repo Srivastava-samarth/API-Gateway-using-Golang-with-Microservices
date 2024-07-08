@@ -4,6 +4,7 @@ import (
 	"api/middleware"
 	"context"
 	"log"
+	"os"
 	"time"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -33,7 +34,8 @@ func checkPasswordHash(password, hash string) bool {
 }
 
 func init() {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://srivastavasamarth94:1fJxNQp9n7WZNuRG@cluster0.8kt0yvj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"))
+	mongoUri := os.Getenv("MONGODB_URI")
+    client, err := mongo.NewClient(options.Client().ApplyURI(mongoUri))
 	if err != nil {
 		log.Fatal(err)
 	}
